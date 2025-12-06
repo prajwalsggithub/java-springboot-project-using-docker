@@ -40,65 +40,9 @@ docker-compose --version
 
 ---
 
-# ⚙️ 2. Environment Variables (.env)
 
-Inside `compose/.env`:
 
-```env
-# AWS RDS MySQL
-SPRING_DATASOURCE_URL=jdbc:mysql://database-1.chiimqu4k79j.us-west-2.rds.amazonaws.com:3306/datastore?createDatabaseIfNotExist=true
-SPRING_DATASOURCE_USERNAME=admin
-SPRING_DATASOURCE_PASSWORD=12345678
-
-# Ports
-BACKEND_PORT=8084
-FRONTEND_PORT=8501
-
-# Frontend API call
-API_URL=http://54.245.0.104:8084
-```
-
-✔ The backend will connect to your RDS database
-✔ The frontend will call your backend using `API_URL`
-
----
-
-# 🐳 3. Docker Compose Configuration
-
-`compose/docker-compose.yaml`:
-
-```yaml
-version: "3.8"
-
-services:
-  frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
-    container_name: frontend-app
-    environment:
-      API_URL: ${API_URL}
-    ports:
-      - "${FRONTEND_PORT}:8501"
-    depends_on:
-      - backend
-
-  backend:
-    build:
-      context: ../backend
-      dockerfile: Dockerfile
-    container_name: backend-app
-    ports:
-      - "${BACKEND_PORT}:8084"
-    environment:
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-```
-
----
-
-# ▶️ 4. Running the Application
+# ▶️ 2. Running the Application
 
 Go to the `compose` directory:
 
@@ -120,7 +64,7 @@ docker ps
 
 ---
 
-# 🌐 5. Accessing the Services
+# 🌐 3. Accessing the Services
 
 | Service  | URL                          |
 | -------- | ---------------------------- |
@@ -131,7 +75,7 @@ Replace `YOUR_SERVER_IP` with your EC2 / VPS IP.
 
 ---
 
-# 🗄️ 6. Connecting to AWS RDS
+# 🗄️ 4. Connecting to AWS RDS
 
 Your backend connects automatically using:
 
@@ -149,7 +93,7 @@ Make sure:
 
 ---
 
-# 🌍 7. Can Docker Compose Run on Multiple Servers?
+# 🌍 5. Can Docker Compose Run on Multiple Servers?
 
 **No — Docker Compose works on a single server only.**
 
@@ -161,7 +105,7 @@ If you want multi-server deployment, use:
 
 ---
 
-# 🛑 8. Stopping the Application
+# 🛑 6. Stopping the Application
 
 ```bash
 docker-compose down
